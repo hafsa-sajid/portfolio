@@ -72,12 +72,9 @@
             
             // Get form data
             const formData = {
-                name: document.getElementById('name').value,
-                email: document.getElementById('email').value,
-                message: document.getElementById('message').value,
-                title: 'Contact Us',
                 from_name: document.getElementById('name').value,
                 reply_to: document.getElementById('email').value,
+                message: document.getElementById('message').value,
                 to_email: 'sajidhafsa073@gmail.com'
             };
             

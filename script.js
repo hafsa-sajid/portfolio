@@ -57,10 +57,11 @@
             themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
         }
         
-        // Form Submission
+        // Form Submission with EmailJS
         const contactForm = document.getElementById('contactForm');
         const submitText = document.getElementById('submitText');
         const submitSpinner = document.getElementById('submitSpinner');
+        const originalButtonText = 'Send Message';
         
         contactForm.addEventListener('submit', (e) => {
             e.preventDefault();
@@ -69,17 +70,33 @@
             submitText.textContent = 'Sending...';
             submitSpinner.style.display = 'inline-block';
             
-            // Simulate form submission
-            setTimeout(() => {
-                submitText.textContent = 'Message Sent!';
-                submitSpinner.style.display = 'none';
-                
-                // Reset form after 2 seconds
-                setTimeout(() => {
-                    submitText.textContent = 'Send Message';
-                    contactForm.reset();
-                }, 2000);
-            }, 1500);
+            const formData = {
+                from_name: document.getElementById('name').value,
+                reply_to: document.getElementById('email').value,
+                message: document.getElementById('message').value,
+                to_email: 'sajidhafsa073@gmail.com'
+            };
+            
+            emailjs.send('service_x9lhtjt', 'template_a1ty5vi', formData)
+                .then((response) => {
+                    console.log('Email sent successfully!', response);
+                    submitText.textContent = 'Message Sent!';
+                    submitSpinner.style.display = 'none';
+                    
+                    setTimeout(() => {
+                        submitText.textContent = originalButtonText;
+                        contactForm.reset();
+                    }, 2000);
+                })
+                .catch((error) => {
+                    console.error('Failed to send email:', error);
+                    submitText.textContent = 'Error! Try again';
+                    submitSpinner.style.display = 'none';
+                    
+                    setTimeout(() => {
+                        submitText.textContent = originalButtonText;
+                    }, 2000);
+                });
         });
         
         // Back to Top Button
